@@ -484,7 +484,7 @@ body {
         -moz-transition: 0.5s all;
         transition: 0.5s all; }
   .newsletter .button {
-    background: transparent url(/assets/arrow.svg) no-repeat 0px center;
+    background: transparent url(assets/arrow.svg) no-repeat 0px center;
     width: 60px;
     height: 40px;
     float: left;
@@ -492,7 +492,7 @@ body {
     -moz-transition: 0.5s background-position;
     transition: 0.5s background-position; }
     .newsletter .button:hover {
-      background: transparent url(/assets/arrow.svg) no-repeat 10px center;
+      background: transparent url(assets/arrow.svg) no-repeat 10px center;
       -webkit-transition: 0.5s background-position;
       -moz-transition: 0.5s background-position;
       transition: 0.5s background-position; }
