@@ -1,0 +1,5 @@
+@import "neat-helpers"; // or "../neat/neat-helpers" when not in Rails
+
+$phone-screen: 640px;
+$phone:   new-breakpoint(max-width ($phone-screen - 1px) 4);
+$desktop: new-breakpoint(min-width $phone-screen 12);
