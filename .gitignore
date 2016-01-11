@@ -1,3 +1,5 @@
 bower_components
 .webassets-cache/
 dist/
+assets/
+.DS_Store

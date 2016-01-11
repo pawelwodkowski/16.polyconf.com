@@ -16,14 +16,14 @@ body {
   margin: 0;
   color: white;
   background: #052534;
-}  
+}
 
 #wrapper {
   overflow: hidden;
   @include media($phone) {
-  	overflow: visible  
+  	overflow: visible
   }
-  
+
 }
 
 .illustration {
@@ -32,34 +32,34 @@ body {
     position: absolute;
     top: 40%;
     left: 45%;
-    @include transform(translate(-50%,-50%));  	
+    @include transform(translate(-50%,-50%));
   }
-  
+
   @include media($phone) {
   	position: relative;
-  	margin: 100px auto 20px;  
+  	margin: 100px auto 20px;
   }
-  
-  
+
+
   #badge {
-    
-    position: relative;  
+
+    position: relative;
     width: 210px;
     height: 280px;
     border: 4px solid #fff;
     border-radius: 20px;
-    margin: 0 auto 50px;    
-    
+    margin: 0 auto 50px;
+
     @include media($phone) {
     	width: 140px;
-    	height: 190px;   	
+    	height: 190px;
     	border-width: 3px;
       border-radius: 15px;
     }
-    
-    
+
+
     .cutout {
-      
+
       width: 30px;
       height: 30px;
       border: 3px solid #fff;
@@ -75,9 +75,9 @@ body {
         height: 16px;
         border-width: 2px;
       }
-      
+
     }
-    
+
     .cord {
       border-radius: 3px;
       width: 6px;
@@ -90,27 +90,27 @@ body {
 
       @include media($phone) {
       	width: 4px;
-      	top: 20px;  
+      	top: 20px;
       }
-      
+
 
     }
-  
+
     .logo {
       position: absolute;
       top: 50%;
-      left: 50%;      
-      @include transform(translate(-50%,-50%));      
+      left: 50%;
+      @include transform(translate(-50%,-50%));
       img {
         width: 70px;
         height: auto;
         @include media($phone) {
-        	width: 50px;  
+        	width: 50px;
         }
-        
+
       }
     }
-  
+
     .line {
       border-radius: 3px;
       background: shade($blue,10%);
@@ -118,7 +118,7 @@ body {
       left: 50%;
       @include transform(translateX(-50%));
     }
-  
+
     .line-1 {
       border-radius: 3px;
       height: 6px;
@@ -127,10 +127,10 @@ body {
       @include media($phone) {
         height: 4px;
         width: 80px;
-        bottom: 40px;      	  
+        bottom: 40px;
       }
     }
-    
+
     .line-2 {
       border-radius: 3px;
       height: 4px;
@@ -139,12 +139,12 @@ body {
       @include media($phone) {
         height: 3px;
         width: 60px;
-        bottom: 28px;      	  
+        bottom: 28px;
       }
     }
-    
+
   }
-  
+
   h1 {
     text-align: center;
     font-size: rem(38px);
@@ -157,7 +157,7 @@ body {
     @include media($phone) {
     	font-size: rem(28px);
     }
-    
+
     span {
       width: 6px;
       height: 6px;
@@ -171,8 +171,8 @@ body {
       @include media($phone) {
       	width: 4px;
       	height: 4px;
-      	top: 12px; 
-      }      
+      	top: 12px;
+      }
     }
   }
 
@@ -202,7 +202,7 @@ body {
         margin: 0 6px;
       	width: 3px;
       	height: 3px;
-      	top: 6px; 
+      	top: 6px;
       }
     }
   }
@@ -215,7 +215,7 @@ body {
     margin: 0;
     text-transform: uppercase;
   }
-  
+
 }
 
 .only-mobile {
@@ -223,41 +223,41 @@ body {
   	display: none;
   }
   @include media($phone) {
-  	display: block;  
+  	display: block;
   }
-  
+
 }
 
 .previous-editions {
-    
+
   @include media($desktop) {
     position: absolute;
     right: 0px;
     top: 50%;
-    @include transform(translate(0%,-50%));	
-  } 
+    @include transform(translate(0%,-50%));
+  }
 
   @include media($phone) {
   	position: relative;
   	right: auto;
-  	top: auto;  
-  	text-align: center;	  
+  	top: auto;
+  	text-align: center;
   }
-  
+
 }
 
 .previous {
-  
-  
+
+
   width: 200px;
   position: relative;
   overflow: hidden;
-    
+
   @include media($phone) {
-  	margin: 0 auto;  
+  	margin: 0 auto;
   }
-  
-  
+
+
   &:before {
     content: "";
     border-radius: 3px;
@@ -269,9 +269,9 @@ body {
     left: 0px;
     @include transform(translate(0%,-50%));
     @include media($phone) {
-    	display: none;  
+    	display: none;
     }
-    
+
   }
 
   .year {
@@ -286,7 +286,7 @@ body {
     color: #052534;
     margin-bottom: 15px;
   }
-  
+
   .watch-video,
   .visit-website {
     a {
@@ -295,9 +295,9 @@ body {
       color: #fff;
       padding: 2px 2px 2px 30px;
       @include media($phone) {
-      	display: inline-block;  
+      	display: inline-block;
       }
-      
+
       &:hover {
         opacity: 0.8;
       }
@@ -306,21 +306,21 @@ body {
   .watch-video a {
     background: url(play.svg) no-repeat left center;
     background-size: 24px;
-  }    
+  }
 
   .visit-website a {
     background: url(visit.svg) no-repeat left center;
     background-size: 24px;
-  }    
+  }
 
 }
 
 #polyconf-2015 {
   margin-bottom: 80px;
   @include media($phone) {
-  	margin-bottom: 40px;  
+  	margin-bottom: 40px;
   }
-  
+
   &:before,.year {
     background: #16AEE5;
   }
@@ -328,9 +328,9 @@ body {
 
 #polyconf-2014 {
   @include media($phone) {
-  	margin-bottom: 100px;  
+  	margin-bottom: 100px;
   }
-  
+
   &:before,.year {
     background: #008EB2;
   }
@@ -339,27 +339,27 @@ body {
 
 
 .newsletter {
-  
+
   @include media($desktop) {
     position: absolute;
     bottom: 10%;
     left: 45%;
-    @include transform(translateX(-50%));	
+    @include transform(translateX(-50%));
   }
-  
+
   @include media($phone) {
   	position: relative;
   	margin: 50px auto 0;
-  	padding-bottom: 100px;  
+  	padding-bottom: 100px;
   }
 
   text-align: center;
-  
+
   h3 {
     text-transform: uppercase;
-    font-weight: 500;     
+    font-weight: 500;
   }
-  
+
   form {
     width: 460px;
     position: relative;
@@ -371,11 +371,11 @@ body {
     @include media($phone) {
       margin: 0 auto;
       right: -30px;
-    	width: 250px;  
+    	width: 250px;
     }
-    
+
   }
-  
+
   input.email {
     border: 2px solid shade($blue,20%);
     border-radius: 3px;
@@ -390,23 +390,23 @@ body {
 
     @include media($desktop) {
     }
-    
+
     @include media($phone) {
-    	width: 190px;  
+    	width: 190px;
     	margin: 0 auto;
     	white-space: nowrap;
     	text-overflow: ellipsis;
     }
-    
-    @include placeholder(){ 
+
+    @include placeholder(){
       color: shade($blue,20%);
       @include transition(0.5s all)
     }
     &:focus {
       box-shadow: none;
       border-color: white;
-      @include transition(0.5s all); 
-      @include placeholder(){ 
+      @include transition(0.5s all);
+      @include placeholder(){
         color: #fff;
         @include transition(0.5s all)
       }
@@ -416,7 +416,7 @@ body {
     background: transparent url(../images/arrow.svg) no-repeat 0px center;
     width: 60px;
     height: 40px;
-      float: left;   	
+      float: left;
     @include media($desktop) {
     }
     @include transition(0.5s background-position);
@@ -425,4 +425,9 @@ body {
       @include transition(0.5s background-position);
     }
   }
+}
+
+.centered {
+  text-align: center;
+  margin-bottom: 12px;
 }
