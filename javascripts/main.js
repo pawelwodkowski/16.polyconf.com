@@ -517,9 +517,21 @@ $(function(){
     $("body").toggleClass("modal-is-open");    
   })
 
+  $(".agenda .talk .button").click(function(event) {
+    event.preventDefault();
+    $("body").removeClass("more-menu-is-open");    
+    $("body").toggleClass("modal-is-open");    
+  })
+
   $("#more-text-link").click(function(event) {
     event.preventDefault();
+    $("body").removeClass("modal-is-open");    
     $("body").toggleClass("more-menu-is-open");    
+  })
+
+  $("#half-modal").click(function(event) {
+    event.preventDefault();
+    $("body").removeClass("modal-is-open");    
   })
 
   $("#days-header").stick_in_parent();
