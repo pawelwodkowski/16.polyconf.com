@@ -19,13 +19,20 @@ html {
 }
 
 body {
+  background: $dark;
   min-height: 100%;
-  background: $light;
   margin: 0;
   padding: 0;
 }
 
 // HOME
+
+#wrapper {
+  @include transition(1s transform);
+  background: $light;
+  position: relative;
+  z-index: 100;
+}
 
 .container {
   padding: 100px 80px;
@@ -425,17 +432,16 @@ footer {
 
 .agenda {
   
-  #three-days {
-  
-  @include clearfix();
-  
-  .day {
+  #days-header {
     
-    float: left;
-    overflow: hidden;
-    @include transition(1s width);
-    
+    @include clearfix();
+    z-index: +1000000;
+
     .day-header {
+
+      float: left;
+      overflow: hidden;
+      @include transition(1s width);          
       
       background: $light;
       padding: 20px 0 30px;      
@@ -459,113 +465,140 @@ footer {
         margin-bottom: 10px;
       }
 
-    }
-
-    .schedule {
-      
-      padding-right: 30px;
-    
-      .time-slot {
+      &.open {
         
-        margin-bottom: 4px;
-        position: relative;
-                
-        .hour {
-        
-          position: absolute;
-          top: 0;
-          left: 0;
-          text-align: right;
-          width: 80px;
-          font-size: rem(20px);
-          line-height: 84px;
-          font-weight: 500;          
-        
-        }
-        
-        .talk {
-          
-          @include transition(1s margin-left);
-          
-          margin-left: 100px;
-          position: relative;
-          background: #fff;
-          overflow: hidden;
-          padding: 20px 20px 0 80px;
-          min-height: 80px;
-          
-          figure {
-            margin: 0;
-            width: 40px;
-            height: 40px;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba($medium,0.1);
-          }
-        
-          .title {
-            font-size: rem(20px);
-            line-height: 1.1em;
-            white-space: nowrap;
-          }
-          
-          .sub {
-            white-space: nowrap;
-            overflow: hidden;
-            font-size: rem(18px);
-            line-height: 1.1em;
-            color: rgba($medium,0.5);
-          }
-        
-        }
-
-      }
-      
-    }
-    
-    &.open {
-      
-      width: 60%;   
-      
-      .day-header {
+        width: 60%;           
         .button {
           background: rgba($medium,0.1);
         }
+        
       }
-      
+         
+      &.closed {
+        
+        width: 20%;
+                
+      }
+
     }
-       
-    &.closed {
+
+  }
+
+  #three-days {
+  
+    @include clearfix();
+
+    .day {
       
-      width: 20%;
-      
+      float: left;
+      overflow: hidden;
+      @include transition(1s width);
+          
       .schedule {
         
-        .hour {
+        padding-right: 30px;
+      
+        .time-slot {
           
-          left: -120px;
+          margin-bottom: 4px;
+          position: relative;
+                  
+          .hour {
           
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-align: right;
+            width: 80px;
+            font-size: rem(20px);
+            line-height: 84px;
+            font-weight: 500;          
+          
+          }
+          
+          .talk {
+            
+            @include transition(1s margin-left);
+            
+            margin-left: 100px;
+            position: relative;
+            background: #fff;
+            overflow: hidden;
+            padding: 20px 20px 0 80px;
+            min-height: 80px;
+            
+            figure {
+              margin: 0;
+              width: 40px;
+              height: 40px;
+              position: absolute;
+              top: 20px;
+              left: 20px;
+              background: rgba($medium,0.1);
+            }
+          
+            .title {
+              font-size: rem(20px);
+              line-height: 1.1em;
+              white-space: nowrap;
+            }
+            
+            .sub {
+              white-space: nowrap;
+              overflow: hidden;
+              font-size: rem(18px);
+              line-height: 1.1em;
+              color: rgba($medium,0.5);
+            }
+          
+          }
+  
         }
         
-        .talk {
-          
-          margin-left: 0px;
-          
-          .title {
-            color: rgba($medium,0.66);            
+      }
+      
+      &.open {
+        
+        width: 60%;   
+        
+        .day-header {
+          .button {
+            background: rgba($medium,0.1);
           }
-          .sub {
-            color: rgba($medium,0.3);
+        }
+        
+      }
+         
+      &.closed {
+        
+        width: 20%;
+        
+        .schedule {
+          
+          .hour {
+            
+            left: -120px;
+            
+          }
+          
+          .talk {
+            
+            margin-left: 0px;
+            
+            .title {
+              color: rgba($medium,0.66);            
+            }
+            .sub {
+              color: rgba($medium,0.3);
+            }
+            
           }
           
         }
         
       }
-      
+         
     }
-       
-  }
 
   } 
   
@@ -648,7 +681,7 @@ body.speakers {
 
 body.sponsors {
 
-  background: white;
+  #wrapper { background: white; }
 
   #sponsors-page {
   
@@ -749,3 +782,35 @@ body.sponsors {
     @include transition(1s transform);
   }
 }
+
+
+#more-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 300px;
+  width: 300px;
+  z-index: 50;
+  @include transition(1s right);
+  color: #fff;
+  padding: 30px;
+}
+
+body.more-menu-is-open {
+  #more-menu {
+    right: 0px;
+    @include transition(1s right);
+  }
+  #wrapper {
+    @include transform(translateX(-300px));
+    @include transition(1s transform);
+  }
+}
+
+body.modal-is-open {
+  #wrapper {
+    @include transform(translateX(-600px));
+    @include transition(1s transform);
+  }  
+}
+
