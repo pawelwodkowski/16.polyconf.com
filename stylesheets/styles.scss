@@ -79,7 +79,7 @@ header {
       &.active {
         &:before {
           content: "";
-          background-image: linear-gradient(saturate(shade($teal,20),10) 0%, rgba($teal,0.95) 100%);
+          background-image: linear-gradient(saturate(shade($teal,15),10) 0%, rgba($teal,0.95) 100%);
           position: absolute;
           height: 80px;
           left: 0;
@@ -654,6 +654,7 @@ body.sponsors {
   
     h3 {
       margin-bottom: 40px;
+      color: $green;
     }
   
     .sponsors {
@@ -731,4 +732,20 @@ body.sponsors {
       
   }
 
+}
+
+#half-modal {
+  background: linear-gradient(45deg, rgba($dark,0.97), $medium);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 50vw;
+  z-index: 99999999;
+  @include transform(translateX(100%));
+  @include transition(1s transform);
+  &.open {
+    @include transform(translateX(0%));
+    @include transition(1s transform);
+  }
 }

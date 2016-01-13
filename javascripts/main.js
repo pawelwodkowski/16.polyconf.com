@@ -511,6 +511,15 @@ y),b(document.body).on("sticky_kit:recalc",y),a.on("sticky_kit:detach",H),setTim
 
 $(function(){
 
+  $(".speaker").click(function() {
+    $("#half-modal").addClass("open");
+  })
+
+  $("#half-modal").click(function() {
+    $("#half-modal").removeClass("open");
+  })
+
+
   $(".day-header").stick_in_parent();
 
   $("#three-days .button").click(function(event){
