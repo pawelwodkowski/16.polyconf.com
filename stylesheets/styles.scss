@@ -522,7 +522,7 @@ footer {
             position: relative;
             background: #fff;
             overflow: hidden;
-            padding: 20px 20px 0 80px;
+            padding: 20px 100px 0 80px;
             min-height: 80px;
             
             figure {
@@ -547,6 +547,14 @@ footer {
               font-size: rem(18px);
               line-height: 1.1em;
               color: rgba($medium,0.5);
+            }
+            
+            .button {
+              position: absolute;
+              top: 50%;
+              right: 20px;
+              @include transform(translateY(-50%));
+              @include transition(1s right);
             }
           
           }
@@ -588,6 +596,10 @@ footer {
             }
             .sub {
               color: rgba($medium,0.3);
+            }
+            .button {
+              right: -800px;
+              @include transition(1s right);
             }
             
           }
@@ -766,49 +778,62 @@ body.sponsors {
 }
 
 #half-modal {
-  background: linear-gradient(45deg, rgba($dark,0.97), $medium);
+  background: linear-gradient(-135deg, shade($black,10), rgba($dark,0.95));
   position: fixed;
   top: 0;
   bottom: 0;
   right: 0;
-  width: 50vw;
+  width: 40vw;
   z-index: 99999999;
   @include transform(translateX(100%));
   @include transition(1s transform);
-  &.open {
-    @include transform(translateX(0%));
-    @include transition(1s transform);
-  }
 }
 
 
 #more-menu {
+  background: linear-gradient(-135deg, $black, rgba($medium,0.95));
   position: fixed;
   top: 0;
   bottom: 0;
-  right: 300px;
+  right: -300px;
   width: 300px;
-  z-index: 50;
+  z-index: 999999;
   @include transition(1s right);
-  color: #fff;
-  padding: 30px;
+  padding: 100px 0 0;
+  h3 {
+    letter-spacing: 0;
+    padding: 0 40px;
+    font-size: rem(18px);
+    color: rgba(white,0.25);
+  }
+  ul {
+    margin-bottom: 40px;
+    li {
+      a {
+        display: block;
+        font-size: rem(22px);
+        line-height: 1em;
+        padding: 10px 40px;
+        color: rgba(#fff,0.75);
+        &:hover {
+          color: #fff;  
+        }
+      }
+    }
+  }
 }
 
 body.more-menu-is-open {
   #more-menu {
-    right: 0px;
+    right: 0;
     @include transition(1s right);
-  }
-  #wrapper {
-    @include transform(translateX(-300px));
-    @include transition(1s transform);
   }
 }
 
 body.modal-is-open {
-  #wrapper {
-    @include transform(translateX(-600px));
+  #half-modal {
+    @include transform(translateX(0%));
     @include transition(1s transform);
-  }  
+  }
 }
 

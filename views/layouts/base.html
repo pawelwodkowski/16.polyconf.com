@@ -24,8 +24,12 @@
 
   </div>
 
+  {% include "partials/more.html" %}  
+  {% include "partials/modal.html" %}  
+
   {% for filename in javascripts %}
   <script type="text/javascript" src="/assets/{{ filename }}"></script>
   {% endfor %}
+
 </body>
 </html>
