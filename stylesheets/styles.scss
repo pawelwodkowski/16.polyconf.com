@@ -19,7 +19,7 @@ html {
 }
 
 body {
-  background: $dark;
+  background: #fff;
   min-height: 100%;
   margin: 0;
   padding: 0;
@@ -74,7 +74,7 @@ header {
         display: block;
         height: 50px;
         line-height: 50px;
-        padding: 0 20px;
+        padding: 0 1.33vw;
         position: relative;
         color: $medium;
         font-size: rem(21px);
@@ -244,11 +244,13 @@ header {
     height: 15vh;
     z-index: 90000;
     .container {
-      padding: 40px 70px;
-      @include clearfix();
       #countdown {
-        float: left;
+        position: absolute;
+        left: 70px;
+        top: 50%;
+        @include transform(translateY(-50%));
         font-size: rem(32px);
+        height: 60px;
         line-height: 60px;
         color: #fff;
         .polyconf-starts {
@@ -259,8 +261,10 @@ header {
         }
       }
       #register-button {
-        float:right;
-        position: relative;
+        position: absolute;
+        right: 70px;
+        top: 50%;
+        @include transform(translateY(-50%));
         #early-birds {
           font-family: "proxima-nova-soft";
           font-size: rem(24px);
@@ -269,16 +273,16 @@ header {
           text-align: right;
           position: absolute;
           right: 40px;
-          top: -100px;
+          top: -90px;
           @include transform(translateY(-100%));   
           &:after {
             content: "";
             width: 3px;
-            height: 60px;
+            height: 50px;
             position: absolute;
             right: 20px;
             border-radius: 2px;
-            bottom: -80px;
+            bottom: -70px;
             background: #fff;
           }
         }
