@@ -1,428 +1,644 @@
+$black:   #1F2127;
+$dark:    #232833;
+$medium:  #3D424C;
+$green:   #1E9999;
+$teal:    #008AA5;
+$blue:    #0F6B99;
+$blue:    #106B99;
+$light:   #E3E4E6;
+$purple:  #4F4099;
+
 @import "bourbon";
 @import "grid-settings";
 @import "base";
 @import "neat";
 
-$blue: tint(#052534,50%);
-
-html,body {
-  min-height: 100%;
+html {
+  height: 100%;
+  font-size: 18px;
 }
 
 body {
   min-height: 100%;
-  height: 100%;
-  padding: 0;
+  background: $light;
   margin: 0;
-  color: white;
-  background: #052534;
-}  
+  padding: 0;
+}
+
+// HOME
+
+.container {
+  padding: 100px 80px;
+}
+
+header {
+  z-index: 10000000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  #logo {
+    display: block;
+    width: 170px;
+    height: 170px;
+    background-image: linear-gradient(-45deg, rgba($blue,0.95) 0%, saturate(shade($blue,30),10) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: transparent url(/assets/logo.svg) no-repeat center;
+      background-size: cover;
+    }
+  }
+  nav {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    height: 40px;
+    li {
+      float: left;
+      height: 50px;
+      position: relative;
+      a {
+        font-family: "proxima-nova-soft";
+        display: block;
+        height: 50px;
+        line-height: 50px;
+        padding: 0 20px;
+        position: relative;
+        color: $medium;
+        font-size: rem(21px);
+        text-transform: uppercase;
+        &:hover {
+          color: tint($medium,10);
+        }
+      }
+      &.active {
+        &:before {
+          content: "";
+          background-image: linear-gradient(saturate(shade($teal,20),10) 0%, rgba($teal,0.95) 100%);
+          position: absolute;
+          height: 80px;
+          left: 0;
+          right: 0;
+          bottom: 0;
+        }
+        a,a:hover {
+          color: #fff;
+        }
+      }
+    }
+    font-family: "proxima-nova-soft";
+  }
+  
+  #more-text-link {
+    i {
+      display: inline-block;
+      vertical-align: top;
+      margin-left: 12px;
+      width: 30px;
+      height: 30px;
+      top: 8px;
+      position: relative;
+      span {
+        background: $medium;
+        position: absolute;
+        display: block;
+        top: 50%;
+        left: 0;
+        width: 20px;
+        height: 2px;
+        border-radius: 2px;
+        @include transform(transitionY(-50%));
+        @include transition(0.33s opacity);
+        &:before {
+          content:"";
+          width: 20px;
+          height: 2px;
+          background: $medium;
+          position: absolute;
+          top: -6px;
+          border-radius: 2px;
+        }
+        &:after {
+          content:"";
+          width: 20px;
+          height: 2px;
+          background: $medium;
+          position: absolute;
+          top: 6px;
+          border-radius: 2px;
+        }
+      }
+    }
+    &:hover {
+      i {
+        span {
+          @include transition(0.33s opacity);
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+
+}
 
 #wrapper {
-  overflow: hidden;
-  @include media($phone) {
-  	overflow: visible  
+  
+  section {
+    
+    &:first-of-type {
+      
+      .container {
+        
+        padding-top: 280px;
+        
+      }
+      
+    }
+    
   }
   
 }
 
-.illustration {
-
-  @include media($desktop) {
-    position: absolute;
-    top: 40%;
-    left: 45%;
-    @include transform(translate(-50%,-50%));  	
+.home {
+  
+  header {
+    nav {
+      li {
+        a {
+          color: white;
+        }
+      }
+    }
+    #more-text-link i {
+      span, span:before, span:after {
+        background: white;      
+      }
+    }
   }
   
-  @include media($phone) {
-  	position: relative;
-  	margin: 100px auto 20px;  
-  }
-  
-  
-  #badge {
+  #first {
     
-    position: relative;  
-    width: 210px;
-    height: 280px;
-    border: 4px solid #fff;
-    border-radius: 20px;
-    margin: 0 auto 50px;    
-    
-    @include media($phone) {
-    	width: 140px;
-    	height: 190px;   	
-    	border-width: 3px;
-      border-radius: 15px;
+    position: relative;
+    background: $dark;
+    height: 90vh; 
+
+    #video {
+      z-index: 100;
+      width: 100%;
+      height: 100%;
     }
     
-    
-    .cutout {
-      
-      width: 30px;
-      height: 30px;
-      border: 3px solid #fff;
+    #video-overlay {
+      content: "";
       position: absolute;
-      top: 15px;
-      left: 50%;
-      @include transform(translateX(-50%));
-      border-radius: 100%;
-
-      @include media($phone) {
-        top: 10px;
-        width: 16px;
-        height: 16px;
-        border-width: 2px;
-      }
-      
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba($dark,0.5);
+      z-index: 120;
     }
     
-    .cord {
-      border-radius: 3px;
-      width: 6px;
-      height: 400px;
-      background: shade($blue,10%);
-      position: absolute;
-      top: 30px;
-      left: 50%;
-      @include transform(translate(-50%,-100%));
-
-      @include media($phone) {
-      	width: 4px;
-      	top: 20px;  
-      }
-      
-
-    }
-  
-    .logo {
+    .container {
+      padding: 0 !important;
       position: absolute;
       top: 50%;
-      left: 50%;      
-      @include transform(translate(-50%,-50%));      
-      img {
-        width: 70px;
-        height: auto;
-        @include media($phone) {
-        	width: 50px;  
+      left: 70px;
+      right: 70px;
+      margin-top: 5vh;
+      @include transform(translateY(-50%));
+      z-index: +1000;
+      
+      .lead {
+        font-family: "proxima-nova-soft";
+        font-size: rem(110px);
+        text-transform: uppercase;
+        color: #fff;
+        line-height: 0.8em;
+        margin: 0 0 30px;
+      }
+      .date {
+        font-family: "proxima-nova-soft";
+        font-size: rem(48px);
+        text-transform: uppercase;
+        color: #fff;
+        line-height: 1em;
+      }
+    }
+  }  
+  #register {
+    background: $medium;
+    position: relative;
+    z-index: 90000;
+    .container {
+      padding: 40px 70px;
+      @include clearfix();
+      #countdown {
+        float: left;
+        font-size: rem(32px);
+        line-height: 60px;
+        color: #fff;
+        .polyconf-starts {
+          color: rgba(white,0.5);
+        }
+        .plus {
+          color: $black;
+        }
+      }
+      #register-button {
+        float:right;
+        position: relative;
+        #early-birds {
+          font-family: "proxima-nova-soft";
+          font-size: rem(24px);
+          line-height: 1em;
+          color: #fff;     
+          text-align: right;
+          position: absolute;
+          right: 40px;
+          top: -100px;
+          @include transform(translateY(-100%));   
+          &:after {
+            content: "";
+            width: 3px;
+            height: 60px;
+            position: absolute;
+            right: 20px;
+            border-radius: 2px;
+            bottom: -80px;
+            background: #fff;
+          }
+        }
+      }
+    }
+  }
+  #about {
+    background: $dark;
+    .container {
+      padding: 150px 70px;    
+    }
+    h2,p {
+      color: #fff;
+    }
+  }
+  #grid {
+    @include display(flex);
+    @include flex-wrap(wrap);
+    .element {
+      @include flex-basis(33%);
+      @include flex-grow(1);
+      background: $medium;
+      &:after {
+        content: "";
+        width: 100%;
+        padding-top: 50%;
+        display: block;
+      }
+    }
+  }
+}
+
+#sponsors {
+
+  background: white;
+
+  .sponsors {
+  
+    @include clearfix();
+    margin-bottom: 40px;
+  
+    .sponsor {
+      float: left;
+      figure {
+        margin: 0;
+        background: $medium;
+      }
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+  
+  }
+  
+  @for $i from 1 through 100 {
+    .sponsor:nth-of-type(#{$i}) {
+      figure {      
+        width: random(200) + 50 + px
+      }
+    }
+  }
+    
+  #main-sponsors {
+    @for $i from 1 through 5 {
+      .sponsor:nth-of-type(#{$i}) {
+        figure {
+          width: random(200) + 100 + px !important
+        }
+      }
+    }
+    .sponsor {
+      figure {
+        height: 60px;
+      }
+      .button {
+        margin-top: 10px;
+      }
+    }
+  }
+  
+  #regular-sponsors {
+    .sponsor {
+      figure {
+        height: 50px;
+      }
+    }
+  }
+  
+  #partners-supporters {
+    .sponsor {
+      figure {
+        height: 40px;
+      }
+    }
+  }
+    
+}
+
+#last {
+  background: white;
+  position: relative;
+  .container {
+    padding: 0 70px;
+    &:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      height: 3px;
+      background: $medium;
+      left: 0;
+      right: 0;
+    }
+    a {
+      display: none;
+    }
+  }
+}
+
+footer {
+  background: white;
+  h4 {
+    color: $teal;
+  }
+  .container {
+    @include clearfix();
+    padding-top: 70px;
+  }
+  
+  #left-footer {
+    float: left;
+    width: 40%
+  }
+  
+  #right-footer {
+    float: right;
+    width: 50%;
+    nav {
+      float: left;
+      width: 25%;
+      li {
+        a {
+          color: $dark;
+          &:hover {
+            color: rgba($medium,0.5);
+          }
+        }
+      }
+    }
+  }
+}
+
+.agenda {
+  
+  #three-days {
+  
+  @include clearfix();
+  
+  .day {
+    
+    float: left;
+    overflow: hidden;
+    @include transition(1s width);
+    
+    .day-header {
+      
+      background: $light;
+      padding: 20px 0 30px;      
+      font-family: "proxima-nova-soft";
+      text-transform: uppercase;
+      z-index: +1000;
+
+      .day-number {
+        font-size: rem(32px);
+        font-weight: 500;
+        line-height: 1em;
+        display: block;
+      }
+
+      .date {
+        color: $teal;
+        font-size: rem(28px);
+        font-weight: 500;
+        line-height: 1em;          
+        display: block;
+        margin-bottom: 10px;
+      }
+
+    }
+    
+    .schedule {
+      
+      padding-right: 30px;
+    
+      .time-slot {
+        
+        margin-bottom: 4px;
+        position: relative;
+                
+        .hour {
+        
+          position: absolute;
+          top: 0;
+          left: 0;
+          text-align: right;
+          width: 80px;
+          font-size: rem(20px);
+          line-height: 84px;
+          font-weight: 500;          
+        
+        }
+        
+        .talk {
+          
+          @include transition(1s margin-left);
+          
+          margin-left: 100px;
+          position: relative;
+          background: #fff;
+          overflow: hidden;
+          padding: 20px 20px 0 80px;
+          min-height: 80px;
+          
+          figure {
+            margin: 0;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba($medium,0.1);
+          }
+        
+          .title {
+            font-size: rem(20px);
+            line-height: 1.1em;
+            white-space: nowrap;
+          }
+          
+          .sub {
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: rem(18px);
+            line-height: 1.1em;
+            color: rgba($medium,0.5);
+          }
+        
+        }
+
+      }
+      
+    }
+    
+    &.open {
+      
+      width: 60%;   
+      
+      .day-header {
+        .button {
+          background: rgba($medium,0.1);
+        }
+      }
+      
+    }
+       
+    &.closed {
+      
+      width: 20%;
+      
+      .schedule {
+        
+        .hour {
+          
+          left: -120px;
+          
+        }
+        
+        .talk {
+          
+          margin-left: 0px;
+          
+          .title {
+            color: rgba($medium,0.66);            
+          }
+          .sub {
+            color: rgba($medium,0.3);
+          }
+          
         }
         
       }
+      
     }
-  
-    .line {
-      border-radius: 3px;
-      background: shade($blue,10%);
-      position: absolute;
-      left: 50%;
-      @include transform(translateX(-50%));
-    }
-  
-    .line-1 {
-      border-radius: 3px;
-      height: 6px;
-      width: 120px;
-      bottom: 50px;
-      @include media($phone) {
-        height: 4px;
-        width: 80px;
-        bottom: 40px;      	  
-      }
-    }
-    
-    .line-2 {
-      border-radius: 3px;
-      height: 4px;
-      width: 80px;
-      bottom: 32px;
-      @include media($phone) {
-        height: 3px;
-        width: 60px;
-        bottom: 28px;      	  
-      }
-    }
-    
+       
   }
   
-  h1 {
-    text-align: center;
-    font-size: rem(38px);
-    line-height: 1em;
-    color: #fff;
-    font-weight: 500;
-    margin: 0 0 10px;
-    text-transform: uppercase;
-    white-space: nowrap;
-    @include media($phone) {
-    	font-size: rem(28px);
-    }
-    
-    span {
-      width: 6px;
-      height: 6px;
-      display: inline-block;
-      vertical-align: top;
-      background: shade($blue,10%);
-      border-radius: 100%;
-      margin: 0 8px;
-      position: relative;
-      top: 17px;
-      @include media($phone) {
-      	width: 4px;
-      	height: 4px;
-      	top: 12px; 
-      }      
-    }
-  }
-
-  h2 {
-    text-align: center;
-    font-size: rem(18px);
-    color: #fff;
-    font-weight: 500;
-    margin: 0;
-    text-transform: uppercase;
-    margin-bottom: 40px;
-    white-space: nowrap;
-    @include media($phone) {
-    	font-size: rem(14px);
-    }
-    span {
-      width: 4px;
-      height: 4px;
-      display: inline-block;
-      vertical-align: top;
-      background: shade($blue,10%);
-      border-radius: 100%;
-      margin: 0 10px;
-      position: relative;
-      top: 8px;
-      @include media($phone) {
-        margin: 0 6px;
-      	width: 3px;
-      	height: 3px;
-      	top: 6px; 
-      }
-    }
-  }
-
-  h4 {
-    text-align: center;
-    font-size: rem(18px);
-    color: shade($blue,10%);
-    font-weight: 500;
-    margin: 0;
-    text-transform: uppercase;
-  }
-  
-}
-
-.only-mobile {
-  @include media($desktop) {
-  	display: none;
-  }
-  @include media($phone) {
-  	display: block;  
-  }
-  
-}
-
-.previous-editions {
-    
-  @include media($desktop) {
-    position: absolute;
-    right: 0px;
-    top: 50%;
-    @include transform(translate(0%,-50%));	
   } 
-
-  @include media($phone) {
-  	position: relative;
-  	right: auto;
-  	top: auto;  
-  	text-align: center;	  
-  }
   
 }
 
-.previous {
+.speakers {
   
-  
-  width: 200px;
-  position: relative;
-  overflow: hidden;
+  #speaker-list {
     
-  @include media($phone) {
-  	margin: 0 auto;  
-  }
-  
-  
-  &:before {
-    content: "";
-    border-radius: 3px;
-    width: 1000px;
-    height: 6px;
-    background: shade($blue,10%);
-    position: absolute;
-    top: 25px;
-    left: 0px;
-    @include transform(translate(0%,-50%));
-    @include media($phone) {
-    	display: none;  
-    }
+    @include row();
     
-  }
-
-  .year {
-    position: relative;
-    font-size: rem(48px);
-    background: shade($blue,10%);
-    border-radius: 5px;
-    height: 50px;
-    display: inline-block;
-    padding: 0 10px;
-    line-height: 54px;
-    color: #052534;
-    margin-bottom: 15px;
-  }
-  
-  .watch-video,
-  .visit-website {
-    a {
-      text-transform: uppercase;
-      display: block;
-      color: #fff;
-      padding: 2px 2px 2px 30px;
-      @include media($phone) {
-      	display: inline-block;  
+    .speaker {
+      
+      @include span-columns(3);
+      @include omega(4n);
+      margin-bottom: $gutter;
+      background: white;
+      position: relative;
+      
+      figure {
+        background: $medium;
+        margin: 0;
+        width: 100%;
+        padding-top: 80%;
       }
       
-      &:hover {
-        opacity: 0.8;
+      .text {
+        padding: 20px;
+        width: 100%;
+        height: 12em;
+        
+        h3 {
+          text-transform: none;
+          font-size: rem(28px);
+          color: $teal;
+          margin: 0 0 10px;
+        }
+        
+        .desc {
+          font-size: rem(18px);
+          line-height: 1em;
+          margin-bottom: 10px;
+        }
+        
+        .twitter {
+          font-size: rem(18px);
+          line-height: 1em;
+          color: rgba($medium,0.5);
+          margin-bottom: 10px;
+        }
+        
+        .tags {
+          position: absolute;
+          bottom: 15px;
+          left: 20px;
+          @include clearfix();
+          li {
+            border-radius: 2px;
+            font-size: rem(16px);
+            font-weight: 500;
+            line-height: 1.2em;
+            padding: 0 0.5em;
+            padding-top: 0.2em;
+            background: $purple;
+            color: #fff;
+            text-transform: uppercase;
+            float: left;
+            margin: 0 0 5px 5px;
+          }
+        }
+        
       }
-    }
-  }
-  .watch-video a {
-    background: url(play.svg) no-repeat left center;
-    background-size: 24px;
-  }    
-
-  .visit-website a {
-    background: url(visit.svg) no-repeat left center;
-    background-size: 24px;
-  }    
-
-}
-
-#polyconf-2015 {
-  margin-bottom: 80px;
-  @include media($phone) {
-  	margin-bottom: 40px;  
-  }
-  
-  &:before,.year {
-    background: #16AEE5;
-  }
-}
-
-#polyconf-2014 {
-  @include media($phone) {
-  	margin-bottom: 100px;  
-  }
-  
-  &:before,.year {
-    background: #008EB2;
-  }
-}
-
-
-
-.newsletter {
-  
-  @include media($desktop) {
-    position: absolute;
-    bottom: 10%;
-    left: 45%;
-    @include transform(translateX(-50%));	
-  }
-  
-  @include media($phone) {
-  	position: relative;
-  	margin: 50px auto 0;
-  	padding-bottom: 100px;  
-  }
-
-  text-align: center;
-  
-  h3 {
-    text-transform: uppercase;
-    font-weight: 500;     
-  }
-  
-  form {
-    width: 460px;
-    position: relative;
-    text-align: center;
-    @include media($desktop) {
-      @include clearfix();
-      right: -30px;
-    }
-    @include media($phone) {
-      margin: 0 auto;
-      right: -30px;
-    	width: 250px;  
+      
     }
     
   }
   
-  input.email {
-    border: 2px solid shade($blue,20%);
-    border-radius: 3px;
-    background: transparent;
-    width: 400px;
-    margin: 0 auto;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: #fff;
-    float: left;
-
-    @include media($desktop) {
-    }
-    
-    @include media($phone) {
-    	width: 190px;  
-    	margin: 0 auto;
-    	white-space: nowrap;
-    	text-overflow: ellipsis;
-    }
-    
-    @include placeholder(){ 
-      color: shade($blue,20%);
-      @include transition(0.5s all)
-    }
-    &:focus {
-      box-shadow: none;
-      border-color: white;
-      @include transition(0.5s all); 
-      @include placeholder(){ 
-        color: #fff;
-        @include transition(0.5s all)
-      }
-    }
-  }
-  .button {
-    background: transparent url(../images/arrow.svg) no-repeat 0px center;
-    width: 60px;
-    height: 40px;
-      float: left;   	
-    @include media($desktop) {
-    }
-    @include transition(0.5s background-position);
-    &:hover {
-      background: transparent url(../images/arrow.svg) no-repeat 10px center;
-      @include transition(0.5s background-position);
-    }
-  }
 }
