@@ -511,24 +511,34 @@ y),b(document.body).on("sticky_kit:recalc",y),a.on("sticky_kit:detach",H),setTim
 
 $(function(){
 
-  $(".speaker").click(function() {
-    $("#half-modal").addClass("open");
-  })
-
-  $("#half-modal").click(function() {
-    $("#half-modal").removeClass("open");
-  })
-
-
-  $(".day-header").stick_in_parent();
-
-  $("#three-days .button").click(function(event){
-    
+  $(".speaker").click(function(event) {
     event.preventDefault();
-    $("#three-days .day.open").removeClass("open").addClass("closed");
-    $(this).parent().parent().removeClass("closed").addClass("open");
-      
+    $("body").removeClass("more-menu-is-open");    
+    $("body").toggleClass("modal-is-open");    
   })
+
+  $("#more-text-link").click(function(event) {
+    event.preventDefault();
+    $("body").toggleClass("more-menu-is-open");    
+  })
+
+  $("#days-header").stick_in_parent();
+
+  $("#three-days .day-header").each(function(i,e){
+    
+    $(this).find(".button").click(function(event){
+      
+      event.preventDefault();    
+
+      $("#three-days .open").removeClass("open").addClass("closed");
+
+      $("#three-days .day-header").eq(i).addClass("open").removeClass("closed");
+      $("#three-days .day").eq(i).addClass("open").removeClass("closed");
+      
+    })
+    
+  })
+
 
 })
 
