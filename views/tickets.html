@@ -1,0 +1,61 @@
+{% extends "layouts/base.html" %}
+{% set body_class = 'tickets' %}
+{% block content %}
+  
+<section id="tickets">
+  <div class="container">
+
+    <h1 class="color-blue">Tickets</h1>
+    <p class="lead">Cras mattis consectetur purus sit amet fermentum.<br>
+      Vestibulum id ligula porta felis euismod semper.</p>
+
+    <div id="timeline">
+      
+      <div id="batches">
+
+        <div class="sold-out batch">
+          <div class="label">Early birds</div>
+          <div class="price">&euro;139</div>
+          <div class="ends"><span>ends 30th May</span></div>
+        </div>
+
+        <div class="batch">
+          <div class="label">Early birds</div>
+          <div class="price">&euro;169</div>
+          <div class="ends"><span>ends 30th May</span></div>
+        </div>
+
+        <div class="batch">
+          <div class="label">Early birds</div>
+          <div class="price">&euro;199</div>
+          <div class="ends"><span>ends 30th May</span></div>
+        </div>
+      
+      </div>
+
+      <div id="line"><div id="passed"></div></div>
+      
+    </div>
+      
+    <div id="vat-footnote">* Price does not include 23% Polish VAT and ticketing fees.</div>
+
+    <div class="text-center button-container">
+      <a href="" class="big teal button">Buy now for &euro;169</a>
+    </div>
+      
+    <div class="text-center" id="ticket-includes">
+      <h3>THE TICKET INCLUDES</h3>
+      <ul>
+        <li>Entry to the conference on 30th Jun, 1st Jul and 2nd Jul</li>
+        <li>Entry to the parties on each day of the conference</li>
+        <li>Access to satellite events and many opportunities to connect with people</li>
+        <li>Drinks & Refreshments</li>
+      </ul>
+    </div>
+      
+  </div>  
+</section>
+
+{% include "partials/sponsors.html" %}
+
+{% endblock %}
