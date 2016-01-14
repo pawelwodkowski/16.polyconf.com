@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="289px" height="121px" viewBox="0 0 289 121" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.4 (17249) - http://www.bohemiancoding.com/sketch -->
+    <title>sold-out</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="0%" x2="0%" y2="116.784626%" id="linearGradient-1">
+            <stop stop-color="#545454" offset="0%"></stop>
+            <stop stop-color="#272727" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Tickets" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="tickets" sketch:type="MSArtboardGroup" transform="translate(-159.000000, -995.000000)">
+            <g id="Rectangle-43-+-SOLD-OUT" sketch:type="MSLayerGroup" transform="translate(303.799414, 816.946510) rotate(-5.000000) translate(-303.799414, -816.946510) translate(158.799414, 554.446510)">
+                <rect id="Rectangle-43" fill="url(#linearGradient-1)" sketch:type="MSShapeGroup" x="1.27897692e-13" y="463" width="250" height="62"></rect>
+                <text id="SOLD-OUT" sketch:type="MSTextLayer" font-family="Proxima Nova Condensed" font-size="48" font-style="condensed" font-weight="bold" sketch:alignment="middle" line-spacing="48" fill="#FFFFFF">
+                    <tspan x="26.9128443" y="510.996195">SOLD OUT</tspan>
+                </text>
+            </g>
+        </g>
+    </g>
+</svg>
