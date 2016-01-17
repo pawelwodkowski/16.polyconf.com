@@ -304,14 +304,37 @@ header {
     .element {
       @include flex-basis(33%);
       @include flex-grow(1);
+      position: relative;
       background: $medium;
       &:after {
         content: "";
         width: 100%;
-        padding-top: 50%;
         display: block;
       }
     }
+    
+    .twitter {
+      .inside {
+        padding: 10%;
+        .avatar {
+          width: 80px;
+          height: 80px;
+          border-radius: 100%;
+          display: block;
+          margin: 0 0 20px;
+          background: shade($medium,10);
+        }
+        p {
+          color: #fff;
+          font-size: rem(18px);
+          line-height: 1.1em;
+        }
+        a {
+          color: rgba(#fff,0.33);
+        }
+      }
+    }
+    
   }
 }
 
@@ -796,6 +819,128 @@ body.sponsors {
   @include transition(1s transform);
 }
 
+#full-modal {
+  
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999999999;
+  background: rgba($dark,0.99);
+  color: #fff;
+  overflow-y: scroll;
+  
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 15vh 0 0;
+  }
+
+  #speaker-details {
+    
+    @include clearfix();
+    width: 100%;
+    
+    .avatar {
+      background: shade($dark,10);
+      width: 33%;
+      float: left;
+      margin: 0;
+      &:after {
+        content: "";
+        width: 100%;
+        display: block;
+        padding-top: 100%;
+      }
+    }
+    
+    .text {
+      float: left;
+      width: 66%;
+      padding-left: 40px;
+      h2 {
+        font-size: rem(48px);
+        line-height: 1.1em;
+        margin-bottom: 20px;
+      }
+      h3 {
+        font-size: rem(24px);
+        color: rgba(white,0.66);
+      }
+      p {
+        line-height: 1.33em;
+        font-size: rem(20px);
+      }
+      .social {
+        @include clearfix();
+        margin: 20px 0;
+        li {
+          float: left;
+          a {
+            width: 60px;
+            height: 60px;
+            display: block;
+            margin: 0 10px 10px 0;
+            background: shade($dark,10);
+            border-radius: 100%;            
+          }
+        }              
+      }
+      .tags {
+        @include clearfix();
+        margin: 20px 0;
+        li {
+          border-radius: 2px;
+          font-size: rem(18px);
+          font-weight: 500;
+          line-height: 1.4em;
+          padding: 0 0.66em;
+          padding-top: 0.2em;
+          background: $purple;
+          color: #fff;
+          text-transform: uppercase;
+          float: left;
+          margin: 0 5px 5px 0;
+        }              
+      }
+      
+    }
+    
+  }
+  
+  nav {
+    width: 80%;
+    position: absolute;
+    bottom: 10vh;
+    left: 50%;
+    @include transform(translateX(-50%));
+    .inside {
+      padding-left: 33%;
+    }
+    a {
+      width: 60px;
+      height: 60px;
+      display: inline-block;
+      margin: 0 10px 10px 0;
+      border-radius: 100%;
+      float: left;
+    }
+    
+    #modal-prev {
+      margin-left: 40px;
+      background: $medium;
+    }
+
+    #modal-next {
+      background: $teal;
+    }
+    
+  }
+
+}
+
 
 #more-menu {
   background: linear-gradient(-135deg, $black, rgba($medium,0.95));
@@ -841,6 +986,9 @@ body.modal-is-open {
   #half-modal {
     @include transform(translateX(0%));
     @include transition(1s transform);
+  }
+  #full-modal {
+    display: block;
   }
 }
 

@@ -513,9 +513,29 @@ $(function(){
 
   $(".speaker").click(function(event) {
     event.preventDefault();
-    $("body").removeClass("more-menu-is-open");    
-    $("body").toggleClass("modal-is-open");    
+
+    $("#full-modal").fadeIn(500,function(){
+      $("body").css("overflow","hidden");
+      $(document).on("keyup.modalClose",function(e) {
+           if (e.keyCode == 27 || e.keyCode == 67) {
+            $("#full-modal").fadeOut(500,function(){
+              $("body").css("overflow","scroll");
+            })
+          }
+      });
+    })
+
   })
+
+  $("#full-modal").click(function(event) {
+    event.preventDefault();
+
+    $("#full-modal").fadeOut(500,function(){
+      $("body").css("overflow","scroll");
+    })
+
+  })
+
 
   $(".agenda .talk .button").click(function(event) {
     event.preventDefault();
