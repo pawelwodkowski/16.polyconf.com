@@ -44,6 +44,14 @@
     border-radius: 2px;
     font-weight: 600;
   }  
+
+  &.medium {
+    height: 40px;
+    line-height: 40px;
+    font-size: rem(22px);
+    padding: 0 20px;
+    border-radius: 3px;
+  }
   
   &.big {
     height: 60px;

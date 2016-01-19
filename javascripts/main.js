@@ -8,506 +8,622 @@ h.detach()),b={position:"",width:"",top:""},a.css(b).removeClass(t).trigger("sti
 a.css({position:"absolute",bottom:d,top:"auto"}).trigger("sticky_kit:bottom")},y=function(){x();return l()},H=function(){G=!0;f.off("touchmove",l);f.off("scroll",l);f.off("resize",y);b(document.body).off("sticky_kit:recalc",y);a.off("sticky_kit:detach",H);a.removeData("sticky_kit");a.css({position:"",bottom:"",top:"",width:""});g.position("position","");if(m)return null==p&&("left"!==r&&"right"!==r||a.insertAfter(h),h.remove()),a.removeClass(t)},f.on("touchmove",l),f.on("scroll",l),f.on("resize",
 y),b(document.body).on("sticky_kit:recalc",y),a.on("sticky_kit:detach",H),setTimeout(l,0)}};n=0;for(K=this.length;n<K;n++)d=this[n],J(b(d));return this}}).call(this);
 
-
-
-/*
- *  Vide - v0.4.1
- *  Easy as hell jQuery plugin for video backgrounds.
- *  http://vodkabears.github.io/vide/
- *
- *  Made by Ilya Makarov
- *  Under MIT License
+/**
+ *   Unslider
+ *   version 2.0
+ *   by @idiot and friends
  */
-!(function(root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    define(['jquery'], factory);
-  } else if (typeof exports === 'object') {
-    factory(require('jquery'));
-  } else {
-    factory(root.jQuery);
-  }
-})(this, function($) {
-
-  'use strict';
-
-  /**
-   * Name of the plugin
-   * @private
-   * @const
-   * @type {String}
-   */
-  var PLUGIN_NAME = 'vide';
-
-  /**
-   * Default settings
-   * @private
-   * @const
-   * @type {Object}
-   */
-  var DEFAULTS = {
-    volume: 1,
-    playbackRate: 1,
-    muted: true,
-    loop: true,
-    autoplay: true,
-    position: '50% 50%',
-    posterType: 'detect',
-    resizing: true,
-    bgColor: 'transparent'
-  };
-
-  /**
-   * Not implemented error message
-   * @private
-   * @const
-   * @type {String}
-   */
-  var NOT_IMPLEMENTED_MSG = 'Not implemented';
-
-  /**
-   * Parse a string with options
-   * @private
-   * @param {String} str
-   * @returns {Object|String}
-   */
-  function parseOptions(str) {
-    var obj = {};
-    var delimiterIndex;
-    var option;
-    var prop;
-    var val;
-    var arr;
-    var len;
-    var i;
-
-    // Remove spaces around delimiters and split
-    arr = str.replace(/\s*:\s*/g, ':').replace(/\s*,\s*/g, ',').split(',');
-
-    // Parse a string
-    for (i = 0, len = arr.length; i < len; i++) {
-      option = arr[i];
-
-      // Ignore urls and a string without colon delimiters
-      if (
-        option.search(/^(http|https|ftp):\/\//) !== -1 ||
-        option.search(':') === -1
-      ) {
-        break;
-      }
-
-      delimiterIndex = option.indexOf(':');
-      prop = option.substring(0, delimiterIndex);
-      val = option.substring(delimiterIndex + 1);
-
-      // If val is an empty string, make it undefined
-      if (!val) {
-        val = undefined;
-      }
-
-      // Convert a string value if it is like a boolean
-      if (typeof val === 'string') {
-        val = val === 'true' || (val === 'false' ? false : val);
-      }
-
-      // Convert a string value if it is like a number
-      if (typeof val === 'string') {
-        val = !isNaN(val) ? +val : val;
-      }
-
-      obj[prop] = val;
-    }
-
-    // If nothing is parsed
-    if (prop == null && val == null) {
-      return str;
-    }
-
-    return obj;
-  }
-
-  /**
-   * Parse a position option
-   * @private
-   * @param {String} str
-   * @returns {Object}
-   */
-  function parsePosition(str) {
-    str = '' + str;
-
-    // Default value is a center
-    var args = str.split(/\s+/);
-    var x = '50%';
-    var y = '50%';
-    var len;
-    var arg;
-    var i;
-
-    for (i = 0, len = args.length; i < len; i++) {
-      arg = args[i];
-
-      // Convert values
-      if (arg === 'left') {
-        x = '0%';
-      } else if (arg === 'right') {
-        x = '100%';
-      } else if (arg === 'top') {
-        y = '0%';
-      } else if (arg === 'bottom') {
-        y = '100%';
-      } else if (arg === 'center') {
-        if (i === 0) {
-          x = '50%';
-        } else {
-          y = '50%';
-        }
-      } else {
-        if (i === 0) {
-          x = arg;
-        } else {
-          y = arg;
-        }
-      }
-    }
-
-    return { x: x, y: y };
-  }
-
-  /**
-   * Search a poster
-   * @private
-   * @param {String} path
-   * @param {Function} callback
-   */
-  function findPoster(path, callback) {
-    var onLoad = function() {
-      callback(this.src);
-    };
-
-    $('<img src="' + path + '.gif">').load(onLoad);
-    $('<img src="' + path + '.jpg">').load(onLoad);
-    $('<img src="' + path + '.jpeg">').load(onLoad);
-    $('<img src="' + path + '.png">').load(onLoad);
-  }
-
-  /**
-   * Vide constructor
-   * @param {HTMLElement} element
-   * @param {Object|String} path
-   * @param {Object|String} options
-   * @constructor
-   */
-  function Vide(element, path, options) {
-    this.$element = $(element);
-
-    // Parse path
-    if (typeof path === 'string') {
-      path = parseOptions(path);
-    }
-
-    // Parse options
-    if (!options) {
-      options = {};
-    } else if (typeof options === 'string') {
-      options = parseOptions(options);
-    }
-
-    // Remove an extension
-    if (typeof path === 'string') {
-      path = path.replace(/\.\w*$/, '');
-    } else if (typeof path === 'object') {
-      for (var i in path) {
-        if (path.hasOwnProperty(i)) {
-          path[i] = path[i].replace(/\.\w*$/, '');
-        }
-      }
-    }
-
-    this.settings = $.extend({}, DEFAULTS, options);
-    this.path = path;
-
-    // https://github.com/VodkaBears/Vide/issues/110
-    try {
-      this.init();
-    } catch (e) {
-      if (e.message !== NOT_IMPLEMENTED_MSG) {
-        throw e;
-      }
-    }
-  }
-
-  /**
-   * Initialization
-   * @public
-   */
-  Vide.prototype.init = function() {
-    var vide = this;
-    var path = vide.path;
-    var poster = path;
-    var sources = '';
-    var $element = vide.$element;
-    var settings = vide.settings;
-    var position = parsePosition(settings.position);
-    var posterType = settings.posterType;
-    var $video;
-    var $wrapper;
-
-    // Set styles of a video wrapper
-    $wrapper = vide.$wrapper = $('<div>').css({
-      position: 'absolute',
-//      'z-index': -1,
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      overflow: 'hidden',
-      '-webkit-background-size': 'cover',
-      '-moz-background-size': 'cover',
-      '-o-background-size': 'cover',
-      'background-size': 'cover',
-      'background-color': settings.bgColor,
-      'background-repeat': 'no-repeat',
-      'background-position': position.x + ' ' + position.y
-    });
-
-    // Get a poster path
-    if (typeof path === 'object') {
-      if (path.poster) {
-        poster = path.poster;
-      } else {
-        if (path.mp4) {
-          poster = path.mp4;
-        } else if (path.webm) {
-          poster = path.webm;
-        } else if (path.ogv) {
-          poster = path.ogv;
-        }
-      }
-    }
-
-    // Set a video poster
-    if (posterType === 'detect') {
-      findPoster(poster, function(url) {
-        $wrapper.css('background-image', 'url(' + url + ')');
-      });
-    } else if (posterType !== 'none') {
-      $wrapper.css('background-image', 'url(' + poster + '.' + posterType + ')');
-    }
-
-    // If a parent element has a static position, make it relative
-    if ($element.css('position') === 'static') {
-      $element.css('position', 'relative');
-    }
-
-    $element.prepend($wrapper);
-
-    if (typeof path === 'object') {
-      if (path.mp4) {
-        sources += '<source src="' + path.mp4 + '.mp4" type="video/mp4">';
-      }
-
-      if (path.webm) {
-        sources += '<source src="' + path.webm + '.webm" type="video/webm">';
-      }
-
-      if (path.ogv) {
-        sources += '<source src="' + path.ogv + '.ogv" type="video/ogg">';
-      }
-
-      $video = vide.$video = $('<video>' + sources + '</video>');
-    } else {
-      $video = vide.$video = $('<video>' +
-        '<source src="' + path + '.mp4" type="video/mp4">' +
-        '<source src="' + path + '.webm" type="video/webm">' +
-        '<source src="' + path + '.ogv" type="video/ogg">' +
-        '</video>');
-    }
-
-    // https://github.com/VodkaBears/Vide/issues/110
-    try {
-      $video
-
-        // Set video properties
-        .prop({
-          autoplay: settings.autoplay,
-          loop: settings.loop,
-          volume: settings.volume,
-          muted: settings.muted,
-          defaultMuted: settings.muted,
-          playbackRate: settings.playbackRate,
-          defaultPlaybackRate: settings.playbackRate
-        });
-    } catch (e) {
-      throw new Error(NOT_IMPLEMENTED_MSG);
-    }
-
-    // Video alignment
-    $video.css({
-      margin: 'auto',
-      position: 'absolute',
-      'z-index': -1,
-      top: position.y,
-      left: position.x,
-      '-webkit-transform': 'translate(-' + position.x + ', -' + position.y + ')',
-      '-ms-transform': 'translate(-' + position.x + ', -' + position.y + ')',
-      '-moz-transform': 'translate(-' + position.x + ', -' + position.y + ')',
-      transform: 'translate(-' + position.x + ', -' + position.y + ')',
-
-      // Disable visibility, while loading
-      visibility: 'hidden',
-      opacity: 0
-    })
-
-    // Resize a video, when it's loaded
-    .one('canplaythrough.' + PLUGIN_NAME, function() {
-      vide.resize();
-    })
-
-    // Make it visible, when it's already playing
-    .one('playing.' + PLUGIN_NAME, function() {
-      $video.css({
-        visibility: 'visible',
-        opacity: 1
-      });
-      $wrapper.css('background-image', 'none');
-    });
-
-    // Resize event is available only for 'window'
-    // Use another code solutions to detect DOM elements resizing
-    $element.on('resize.' + PLUGIN_NAME, function() {
-      if (settings.resizing) {
-        vide.resize();
-      }
-    });
-
-    // Append a video
-    $wrapper.append($video);
-  };
-
-  /**
-   * Get a video element
-   * @public
-   * @returns {HTMLVideoElement}
-   */
-  Vide.prototype.getVideoObject = function() {
-    return this.$video[0];
-  };
-
-  /**
-   * Resize a video background
-   * @public
-   */
-  Vide.prototype.resize = function() {
-    if (!this.$video) {
-      return;
-    }
-
-    var $wrapper = this.$wrapper;
-    var $video = this.$video;
-    var video = $video[0];
-
-    // Get a native video size
-    var videoHeight = video.videoHeight;
-    var videoWidth = video.videoWidth;
-
-    // Get a wrapper size
-    var wrapperHeight = $wrapper.height();
-    var wrapperWidth = $wrapper.width();
-
-    if (wrapperWidth / videoWidth > wrapperHeight / videoHeight) {
-      $video.css({
-
-        // +2 pixels to prevent an empty space after transformation
-        width: wrapperWidth + 2,
-        height: 'auto'
-      });
-    } else {
-      $video.css({
-        width: 'auto',
-
-        // +2 pixels to prevent an empty space after transformation
-        height: wrapperHeight + 2
-      });
-    }
-  };
-
-  /**
-   * Destroy a video background
-   * @public
-   */
-  Vide.prototype.destroy = function() {
-    delete $[PLUGIN_NAME].lookup[this.index];
-    this.$video && this.$video.off(PLUGIN_NAME);
-    this.$element.off(PLUGIN_NAME).removeData(PLUGIN_NAME);
-    this.$wrapper.remove();
-  };
-
-  /**
-   * Special plugin object for instances.
-   * @public
-   * @type {Object}
-   */
-  $[PLUGIN_NAME] = {
-    lookup: []
-  };
-
-  /**
-   * Plugin constructor
-   * @param {Object|String} path
-   * @param {Object|String} options
-   * @returns {JQuery}
-   * @constructor
-   */
-  $.fn[PLUGIN_NAME] = function(path, options) {
-    var instance;
-
-    this.each(function() {
-      instance = $.data(this, PLUGIN_NAME);
-
-      // Destroy the plugin instance if exists
-      instance && instance.destroy();
-
-      // Create the plugin instance
-      instance = new Vide(this, path, options);
-      instance.index = $[PLUGIN_NAME].lookup.push(instance) - 1;
-      $.data(this, PLUGIN_NAME, instance);
-    });
-
-    return this;
-  };
-
-  $(document).ready(function() {
-    var $window = $(window);
-
-    // Window resize event listener
-    $window.on('resize.' + PLUGIN_NAME, function() {
-      for (var len = $[PLUGIN_NAME].lookup.length, i = 0, instance; i < len; i++) {
-        instance = $[PLUGIN_NAME].lookup[i];
-
-        if (instance && instance.settings.resizing) {
-          instance.resize();
-        }
-      }
-    });
-
-    // https://github.com/VodkaBears/Vide/issues/68
-    $window.on('unload.' + PLUGIN_NAME, function() {
-      return false;
-    });
-
-    // Auto initialization
-    // Add 'data-vide-bg' attribute with a path to the video without extension
-    // Also you can pass options throw the 'data-vide-options' attribute
-    // 'data-vide-options' must be like 'muted: false, volume: 0.5'
-    $(document).find('[data-' + PLUGIN_NAME + '-bg]').each(function(i, element) {
-      var $element = $(element);
-      var options = $element.data(PLUGIN_NAME + '-options');
-      var path = $element.data(PLUGIN_NAME + '-bg');
-
-      $element[PLUGIN_NAME](path, options);
-    });
-  });
-
-});
+ 
+(function($) {
+	//  Don't throw any errors when jQuery
+	if(!$) {
+		return console.warn('Unslider needs jQuery');
+	}
+
+	$.Unslider = function(context, options) {
+		var self = this;
+
+		//  Create an Unslider reference we can use everywhere
+		self._ = 'unslider';
+
+		//  Store our default options in here
+		//  Everything will be overwritten by the jQuery plugin though
+		self.defaults = {
+			//  Should the slider move on its own or only when
+			//  you interact with the nav/arrows?
+			//  Only accepts boolean true/false.
+			autoplay: false,
+
+			//  3 second delay between slides moving, pass
+			//  as a number in milliseconds.
+			delay: 3000,
+
+			//  Animation speed in millseconds
+			speed: 750,
+
+			//  An easing string to use. If you're using Velocity, use a
+			//  Velocity string otherwise you can use jQuery/jQ UI options.
+			easing: 'swing', // [.42, 0, .58, 1],
+			
+			//  Does it support keyboard arrows?
+			//  Can pass either true or false -
+			//  or an object with the keycodes, like so:
+			//  {
+			//	 prev: 37,
+			//	 next: 39
+			// }
+			//  You can call any internal method name
+			//  before the keycode and it'll be called.
+			keys: {
+				prev: 37,
+				next: 39
+			},
+			
+			//  Do you want to generate clickable navigation
+			//  to skip to each slide? Accepts boolean true/false or
+			//  a callback function per item to generate.
+			nav: true,
+
+			//  Should there be left/right arrows to go back/forth?
+			//   -> This isn't keyboard support.
+			//  Either set true/false, or an object with the HTML
+			//  elements for each arrow like below:
+			arrows: {
+				prev: '<a class="' + self._ + '-arrow prev">Prev</a>',
+				next: '<a class="' + self._ + '-arrow next">Next</a>'
+			},
+
+			//  How should Unslider animate?
+			//  It can do one of the following types:
+			//  "fade": each slide fades in to each other
+			//  "horizontal": each slide moves from left to right
+			//  "vertical": each slide moves from top to bottom
+			animation: 'horizontal',
+
+			//  If you don't want to use a list to display your slides,
+			//  you can change it here. Not recommended and you'll need
+			//  to adjust the CSS accordingly.
+			selectors: {
+				container: 'ul:first',
+				slides: 'li'
+			},
+
+			//  Do you want to animate the heights of each slide as
+			//  it moves
+			animateHeight: false,
+
+			//  Active class for the nav
+			activeClass: self._ + '-active',
+
+			//  Have swipe support?
+			//  You can set this here with a boolean and always use
+			//  initSwipe/destroySwipe later on.
+			swipe: true
+		};
+
+		//  Set defaults
+		self.$context = context;
+		self.options = {};
+
+		//  Leave our elements blank for now
+		//  Since they get changed by the options, we'll need to
+		//  set them in the init method.
+		self.$parent = null;
+		self.$container = null;
+		self.$slides = null;
+		self.$nav = null;
+		self.$arrows = [];
+		
+		//  Set our indexes and totals
+		self.total = 0;
+		self.current = 0;
+
+		//  Generate a specific random ID so we don't dupe events
+		self.prefix = self._ + '-';
+		self.eventSuffix = '.' + self.prefix + ~~(Math.random() * 2e3);
+
+		//  In case we're going to use the autoplay
+		self.interval = null;
+
+		//  Get everything set up innit
+		self.init = function(options) {
+			//  Set up our options inside here so we can re-init at
+			//  any time
+			self.options = $.extend({}, self.defaults, options);
+
+			//  Our elements
+			self.$container = self.$context.find(self.options.selectors.container).addClass(self.prefix + 'wrap');
+			self.$slides = self.$container.children(self.options.selectors.slides);
+
+			//  We'll manually init the container
+			self.setup();
+
+			//  We want to keep this script as small as possible
+			//  so we'll optimise some checks
+			$.each(['nav', 'arrows', 'keys', 'infinite'], function(index, module) {
+				self.options[module] && self['init' + $._ucfirst(module)]();
+			});
+
+			//  Add swipe support
+			if(jQuery.event.special.swipe && self.options.swipe) {
+				self.initSwipe();
+			}
+
+			//  If autoplay is set to true, call self.start()
+			//  to start calling our timeouts
+			self.options.autoplay && self.start();
+
+			//  We should be able to recalculate slides at will
+			self.calculateSlides();
+
+			//  Listen to a ready event
+			self.$context.trigger(self._ + '.ready');
+
+			//  Everyday I'm chainin'
+			return self.animate(self.options.index || self.current, 'init');
+		};
+
+		self.setup = function() {
+			//  Add a CSS hook to the main element
+			self.$context.addClass(self.prefix + self.options.animation).wrap('<div class="' + self._ + '" />');
+			self.$parent = self.$context.parent('.' + self._);
+
+			//  We need to manually check if the container is absolutely
+			//  or relatively positioned
+			var position = self.$context.css('position');
+
+			//  If we don't already have a position set, we'll
+			//  automatically set it ourselves
+			if(position === 'static') {
+				self.$context.css('position', 'relative');
+			}
+
+			self.$context.css('overflow', 'hidden');
+		};
+
+		//  Set up the slide widths to animate with
+		//  so the box doesn't float over
+		self.calculateSlides = function() {
+			self.total = self.$slides.length;
+
+			//  Set the total width
+			if(self.options.animation !== 'fade') {
+				var prop = 'width';
+
+				if(self.options.animation === 'vertical') {
+					prop = 'height';
+				}
+
+				self.$container.css(prop, (self.total * 100) + '%').addClass(self.prefix + 'carousel');
+				self.$slides.css(prop, (100 / self.total) + '%');
+			}
+		};
+
+
+		//  Start our autoplay
+		self.start = function() {
+			self.interval = setTimeout(function() {
+				//  Move on to the next slide
+				self.next();
+
+				//  If we've got autoplay set up
+				//  we don't need to keep starting
+				//  the slider from within our timeout
+				//  as .animate() calls it for us
+			}, self.options.delay);
+
+			return self;
+		};
+
+		//  And pause our timeouts
+		//  and force stop the slider if needed
+		self.stop = function() {
+			clearTimeout(self.interval);
+
+			return self;
+		};
+
+
+		//  Set up our navigation
+		self.initNav = function() {
+			var $nav = $('<nav class="' + self.prefix + 'nav"><ol /></nav>');
+
+			//  Build our click navigation item-by-item
+			self.$slides.each(function(key) {
+				//  If we've already set a label, let's use that
+				//  instead of generating one
+				var label = this.getAttribute('data-nav') || key + 1;
+
+				//  Listen to any callback functions
+				if($.isFunction(self.options.nav)) {
+					label = self.options.nav.call(self.$slides.eq(key), key, label);
+				}
+
+				//  And add it to our navigation item
+				$nav.children('ol').append('<li data-slide="' + key + '">' + label + '</li>');
+			});
+			
+			//  Keep a copy of the nav everywhere so we can use it
+			self.$nav = $nav.insertAfter(self.$context);
+
+			//  Now our nav is built, let's add it to the slider and bind
+			//  for any click events on the generated links
+			self.$nav.find('li').on('click' + self.eventSuffix, function() {
+				//  Cache our link and set it to be active
+				var $me = $(this).addClass(self.options.activeClass);
+
+				//  Set the right active class, remove any other ones
+				$me.siblings().removeClass(self.options.activeClass);
+
+				//  Move the slide
+				self.animate($me.attr('data-slide'));
+			});
+		};
+
+
+		//  Set up our left-right arrow navigation
+		//  (Not keyboard arrows, prev/next buttons)
+		self.initArrows = function() {
+			if(self.options.arrows === true) {
+				self.options.arrows = self.defaults.arrows;
+			}
+
+			//  Loop our options object and bind our events
+			$.each(self.options.arrows, function(key, val) {
+				//  Add our arrow HTML and bind it
+				self.$arrows.push(
+					$(val).insertAfter(self.$context).on('click' + self.eventSuffix, self[key])
+				);
+			});
+		};
+
+
+		//  Set up our keyboad navigation
+		//  Allow binding to multiple keycodes
+		self.initKeys = function() {
+			if(self.options.keys === true) {
+				self.options.keys = self.defaults.keys;
+			}
+
+			$(document).on('keyup' + self.eventSuffix, function(e) {
+				$.each(self.options.keys, function(key, val) {
+					if(e.which === val) {
+						$.isFunction(self[key]) && self[key].call(self);
+					}
+				});
+			});
+		};
+
+		//  Requires jQuery.event.swipe
+		//  -> stephband.info/jquery.event.swipe
+		self.initSwipe = function() {
+			var width = self.$slides.width();
+
+			//  We don't want to have a tactile swipe in the slider
+			//  in the fade animation, as it can cause some problems
+			//  with layout, so we'll just disable it.
+			if(self.options.animation !== 'fade') {
+
+				self.$container.on({
+
+					movestart: function(e) {
+						//  If the movestart heads off in a upwards or downwards
+						//  direction, prevent it so that the browser scrolls normally.
+						if((e.distX > e.distY && e.distX < -e.distY) || (e.distX < e.distY && e.distX > -e.distY)) {
+							return !!e.preventDefault();
+						}
+
+						self.$container.css('position', 'relative');
+					},
+
+					move: function(e) {
+						self.$container.css('left', -(100 * self.current) + (100 * e.distX / width) + '%');
+					},
+
+					moveend: function(e) {
+						
+						if((Math.abs(e.distX) / width) < $.event.special.swipe.settings.threshold) {
+
+							self[ e.distX < 0 ? 'next' : 'prev' ]();
+						}
+					}
+				});
+			}
+		};
+
+		//  Infinite scrolling is a massive pain in the arse
+		//  so we need to create a whole bloody function to set
+		//  it up. Argh.
+		self.initInfinite = function() {
+			var pos = ['first', 'last'];
+
+			$.each(pos, function(index, item) {
+				self.$slides.push.apply(
+					self.$slides,
+					
+					//  Exclude all cloned slides and call .first() or .last()
+					//  depending on what `item` is.
+					self.$slides.filter(':not(".' + self._ + '-clone")')[item]()
+
+					//  Make a copy of it and identify it as a clone
+					.clone().addClass(self._ + '-clone')
+
+					//  Either insert before or after depending on whether we're
+					//  the first or last clone
+					['insert' + (index === 0 ? 'After' : 'Before')](
+						//  Return the other element in the position array
+						//  if item = first, return "last"
+						self.$slides[pos[~~!index]]()
+					)
+				);
+			});
+		};
+
+		//  Remove any trace of arrows
+		//  Loop our array of arrows and use jQuery to remove
+		//  It'll unbind any event handlers for us
+		self.destroyArrows = function() {
+			$.each(self.$arrows, function(i, $arrow) {
+				$arrow.remove();
+			});
+		};
+
+		//  Remove any swipe events and reset the position
+		self.destroySwipe = function() {
+			//  We bind to 4 events, so we'll unbind those
+			self.$container.off('movestart move moveend');
+		};
+
+		//  Unset the keyboard navigation
+		//  Remove the handler 
+		self.destroyKeys = function() {
+			//  Remove the event handler
+			$(document).off('keyup' + self.eventSuffix);
+		};
+
+		self.setIndex = function(to) {
+			if(to < 0) {
+				to = self.total - 1;
+			}
+
+			self.current = Math.min(Math.max(0, to), self.total - 1);
+
+			if(self.options.nav) {
+				self.$nav.find('[data-slide="' + self.current + '"]')._active(self.options.activeClass);
+			}
+
+			self.$slides.eq(self.current)._active(self.options.activeClass);
+
+			return self;
+		};
+		
+		//  Despite the name, this doesn't do any animation - since there's
+		//  now three different types of animation, we let this method delegate
+		//  to the right type, keeping the name for backwards compat.
+		self.animate = function(to, dir) {
+			//  Animation shortcuts
+			//  Instead of passing a number index, we can now
+			//  use .data('unslider').animate('last');
+			//  or .unslider('animate:last')
+			//  to go to the very last slide
+			if(to === 'first') to = 0;
+			if(to === 'last') to = self.total;
+
+			//  Don't animate if it's not a valid index
+			if(isNaN(to)) {
+				return self;
+			}
+
+			if(self.options.autoplay) {
+				self.stop().start();
+			}
+
+			self.setIndex(to);
+
+			//  Add a callback method to do stuff with
+			self.$context.trigger(self._ + '.change', [to, self.$slides.eq(to)]);
+
+			//  Delegate the right method - everything's named consistently
+			//  so we can assume it'll be called "animate" + 
+			var fn = 'animate' + $._ucfirst(self.options.animation);
+
+			//  Make sure it's a valid animation method, otherwise we'll get
+			//  a load of bug reports that'll be really hard to report
+			if($.isFunction(self[fn])) {
+				self[fn](self.current, dir);
+			}
+
+			return self;
+		};
+
+
+		//  Shortcuts for animating if we don't know what the current
+		//  index is (i.e back/forward)
+		//  For moving forward we need to make sure we don't overshoot.
+		self.next = function() {
+			var target = self.current + 1;
+
+			//  If we're at the end, we need to move back to the start
+			if(target >= self.total) {
+				target = 0;
+			}
+
+			return self.animate(target, 'next');
+		};
+
+		//  Previous is a bit simpler, we can just decrease the index
+		//  by one and check if it's over 0.
+		self.prev = function() {
+			return self.animate(self.current - 1, 'prev');
+		};
+		
+
+		//  Our default animation method, the old-school left-to-right
+		//  horizontal animation
+		self.animateHorizontal = function(to) {
+			var prop = 'left';
+
+			//  Add RTL support, slide the slider
+			//  the other way if the site is right-to-left
+			if(self.$context.attr('dir') === 'rtl') {
+				prop = 'right';
+			}
+
+			if(self.options.infinite) {
+				//  So then we need to hide the first slide
+				self.$container.css('margin-' + prop, '-100%');
+			}
+
+			return self.slide(prop, to);
+		};
+
+		//  The same animation methods, but vertical support
+		//  RTL doesn't affect the vertical direction so we
+		//  can just call as is
+		self.animateVertical = function(to) {
+			self.options.animateHeight = true;
+
+			//  Normal infinite CSS fix doesn't work for
+			//  vertical animation so we need to manually set it
+			//  with pixels. Ah well.
+			if(self.options.infinite) {
+				self.$container.css('margin-top', -self.$slides.outerHeight());
+			}
+
+			return self.slide('top', to);
+		};
+
+		//  Actually move the slide now
+		//  We have to pass a property to animate as there's
+		//  a few different directions it can now move, but it's
+		//  otherwise unchanged from before.
+		self.slide = function(prop, to) {
+			//  If we want to change the height of the slider
+			//  to match the current slide, you can set
+			//  {animateHeight: true}
+			if(self.options.animateHeight) {
+				self._move(self.$context, {height: self.$slides.eq(to).outerHeight()}, false);
+			}
+
+			//  For infinite sliding we add a dummy slide at the end and start
+			//  of each slider to give the appearance of being infinite
+			if(self.options.infinite) {
+				var dummy;
+
+				//  Going backwards to last slide
+				if(to === self.total - 1) {
+					//  We're setting a dummy position and an actual one
+					//  the dummy is what the index looks like
+					//  (and what we'll silently update to afterwards),
+					//  and the actual is what makes it not go backwards
+					dummy = self.total - 3;
+					to = -1;
+				}
+
+				//  Going forwards to first slide
+				if(to === self.total - 2) {
+					dummy = 0;
+					to = self.total - 2;
+				}
+
+				//  If it's a number we can safely set it
+				if(typeof dummy === 'number') {
+					self.setIndex(dummy);
+
+					//  Listen for when the slide's finished transitioning so
+					//  we can silently move it into the right place and clear
+					//  this whole mess up.
+					self.$context.on(self._ + '.moved', function() {
+						if(self.current === dummy) {
+							self.$container.css(prop, -(100 * dummy) + '%').off(self._ + '.moved');
+						}
+					});
+				}
+			}
+
+			//  We need to create an object to store our property in
+			//  since we don't know what it'll be.
+			var obj = {};
+
+			//  Manually create it here
+			obj[prop] = -(100 * to) + '%';
+
+			//  And animate using our newly-created object
+			return self._move(self.$container, obj);
+		};
+
+
+		//  Fade between slides rather than, uh, sliding it
+		self.animateFade = function(to) {
+			var $active = self.$slides.eq(to).addClass(self.options.activeClass);
+
+			//  Toggle our classes
+			self._move($active.siblings().removeClass(self.options.activeClass), {opacity: 0});
+			self._move($active, {opacity: 1}, false);
+		};
+
+		self._move = function($el, obj, callback, speed) {
+			if(callback !== false) {
+				callback = function() {
+					self.$context.trigger(self._ + '.moved');
+				};
+			}
+
+			return $el._move(obj, speed || self.options.speed, self.options.easing, callback);
+		};
+
+		//  Allow daisy-chaining of methods
+		return self.init(options);
+	};
+
+	//  Internal (but global) jQuery methods
+	//  They're both just helpful types of shorthand for
+	//  anything that might take too long to write out or
+	//  something that might be used more than once.
+	$.fn._active = function(className) {
+		return this.addClass(className).siblings().removeClass(className);
+	};
+
+	//  The equivalent to PHP's ucfirst(). Take the first
+	//  character of a string and make it uppercase.
+	//  Simples.
+	$._ucfirst = function(str) {
+		//  Take our variable, run a regex on the first letter
+		return (str + '').toLowerCase().replace(/^./, function(match) {
+			//  And uppercase it. Simples.
+			return match.toUpperCase();
+		});
+	};
+
+	$.fn._move = function() {
+		this.stop(true, true);
+		return $.fn[$.fn.velocity ? 'velocity' : 'animate'].apply(this, arguments);
+	};
+
+	//  And set up our jQuery plugin
+	$.fn.unslider = function(opts) {
+		return this.each(function() {
+			var $this = $(this);
+
+			//  Allow usage of .unslider('function_name')
+			//  as well as using .data('unslider') to access the
+			//  main Unslider object
+			if(typeof opts === 'string' && $this.data('unslider')) {
+				opts = opts.split(':');
+
+				var call = $this.data('unslider')[opts[0]];
+
+				//  Do we have arguments to pass to the string-function?
+				if($.isFunction(call)) {
+					return call.apply($this, opts[1] ? opts[1].split(',') : null);
+				}
+			}
+
+			return $this.data('unslider', new $.Unslider($this, opts));
+		});
+	};
+	
+})(window.jQuery);
 
 $(function(){
 
@@ -570,6 +686,15 @@ $(function(){
     })
     
   })
+
+  $('#slider').unslider({
+    animation: 'vertical', 
+    autoplay: true, 
+    infinite: true,
+    delay: 3000,
+    nav: false,
+    arrows: false
+  }); 
 
 
 })
