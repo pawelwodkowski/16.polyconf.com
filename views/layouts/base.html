@@ -2,37 +2,36 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+
   <title>PolyConf - Polyglot Programming Conference</title>
-  <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico">
 
-  <meta name="description" content="PolyConf is a three-day, single track, multi-disciplinary conference on advanced technologies for programmers interested in polyglot approach to software development."/>
-  <meta name="author" content="PolyConf HQ || Designed by Paweł Wodkowski pawel@nukomeet.com"/>
+  {% include "partials/meta.html" %}
+  {% include "partials/head.html" %}
 
-  <!-- Open Graph data -->
-  <meta property="og:title" content="PolyConf 16 A conference for polyglot programmers" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="http://polyconf.com/" />
-  <meta property="og:description" content="PolyConf is a three-day, single track, multi-disciplinary conference on advanced technologies for programmers interested in polyglot approach to software development." />
-  <meta property="og:image" content="http://polyconf.com/fb.jpg" />
-  <meta property="og:image:type" content="image/jpeg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:site_name" content="PolyConf" />
-  <meta property="og:locale" content="en_US" />
-
-  <script src="https://use.typekit.net/nxq5wzz.js"></script>
-  <script>try{Typekit.load({ async: true });}catch(e){}</script>
-
-  <link href="assets/styles.css" rel="stylesheet">
-
+  <script src="https://maps.googleapis.com/maps/api/js"></script>
+  
   {% block head %}{% endblock %}
 </head>
-<body>
-  {% block content %}{% endblock %}
+<body class="{{ body_class }}">
+  <div id="wrapper">
+    
+    <header>
+      <a href="/" id="logo"><span>&nbsp;</span></a>
+      {% include "partials/nav.html" %}
+    </header>
+    
+    {% block content %}{% endblock %}
+
+    {% include "partials/footer.html" %}
+
+  </div>
+
+  {% include "partials/more.html" %}  
+  {% include "partials/modal.html" %}  
 
   {% for filename in javascripts %}
   <script type="text/javascript" src="/assets/{{ filename }}"></script>
   {% endfor %}
+
 </body>
 </html>

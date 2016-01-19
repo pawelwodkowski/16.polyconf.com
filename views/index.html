@@ -1,56 +1,117 @@
 {% extends "layouts/base.html" %}
-
+{% set body_class = 'home' %}
 {% block content %}
-
-<div id="wrapper">
-
+  
 <section id="first">
-  <div class="illustration">
-    <figure id="badge">
-      <span class="cutout"></span>
-      <span class="cord"></span>
-      <span class="logo"><img src="assets/logo.svg" /></span>
-      <span class="line line-1"></span>
-      <span class="line line-2"></span>
-    </figure>
-    <h1>Poly<span class="dot"></span>Conf<span class="dot"></span>2016</h1>
-    <h2>JUN 30 - JUL 2, 2016<span class="dot"></span>POZNAN, PL</h2>
-    <div class="centered">
-      <a href="http://sponsor.polyconf.com/" class="button">Sponsorship prospectus</a>
+  
+  <video autoplay="" loop="" id="video" poster="/assets/video/bg.jpg">
+    <source src="/assets/video/barcelona-2015-grey_1.mp4" type="video/mp4">
+  </video>
+  <div id="video-overlay">&nbsp;</div>
+
+  <div class="container">
+    
+    <p class="lead">Polyglot<br>programmers<br>unite</p>
+    <p class="date">Jun 30 - Jul 2, 2016 &middot; Poznan, PL</p>  
+
+  </div>  
+</section>
+
+<section id="register">
+  <div class="container">
+    
+    <div id="slider">
+
+      <ul>
+        <li class="slide">
+          <div class="text">
+            <div>Call for Papers is open till March 30th, 2016</div>
+            <a href="#" class="medium blue button">More info</a>
+          </div>
+        </li>
+        <li class="slide">
+          <div class="text">
+            <div>Save now on early bird tickets, available till April 30th, 2016</div>
+            <a href="#" class="medium blue button">More info</a>
+          </div>
+        </li>
+        <li class="slide">
+          <div class="text">
+            <div>Promote your company. Find great employees. Become our Sponsor.</div>
+            <a href="#" class="medium blue button">More info</a>
+          </div>
+        </li>
+      </ul>
+
     </div>
-    <h4>We are working <br class="only-mobile">on a new website</h4>
-  </div>
-  <div class="newsletter">
-    <h3>Sign up on Poly Conf <br class="only-mobile">mailing list</h3>
-    <form action="//polyconf.us2.list-manage.com/subscribe/post?u=294dfa55a7b056bcc82ffae2d&amp;id=409201e872" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-      <input type="email" value="" name="EMAIL" class="email" placeholder="Enter your e-mail address here">
-      <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
-      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_294dfa55a7b056bcc82ffae2d_409201e872" tabindex="-1" value=""></div>
-      <input type="submit" value="" name="subscribe" class="button">
-    </form>
+    
+    <div id="register-button">
+      
+      <a href="/tickets" class="green big button">Register now</a>
+      <div id="early-birds">SAVE ON<br>EARLY BIRDS<br>TICKETS</div>
+      
+    </div>
+    
   </div>
 </section>
 
-<section class="previous-editions">
+<section id="about">
+  <div class="container">
+    
+    <div class="text">
+  
+    <h2>About POLYCONF</h2>
+    <p class="lead">PolyConf is a three-day, single track, multi-disciplinary conference on advanced technologies for programmers interested in polyglot approach to software development.<p>
+      
+    <h3>History</h3>
+    <p>PolyConf succeeds RuPy, a Ruby and Python conference founded in 2006. Over seven years the conference has grown and disseminated to several countries (Poland, Czech Republic, Hungary, Brazil) as well as to other programming languages.</p>
+    
+    <h3>Mission</h3>
+    <p>PolyConf mission is to promote polyglot approach to software development and foster cross-pollination between various technologies and their communities.</p>
 
-  <div class="previous polyconf" id="polyconf-2015">
-
-    <div class="year">2015</div>
-    <div class="watch-video"><a href="https://www.youtube.com/watch?v=OWmsgUoTqyk" target="_blank">Watch video</a></div>
-    <div class="visit-website"><a href="http://15.polyconf.com" target="_blank">Visit website</a></div>
-
+    </p>
+  
   </div>
+</section>
 
-  <div class="previous polyconf" id="polyconf-2014">
-
-    <div class="year">2014</div>
-    <div class="watch-video"><a href="https://www.youtube.com/watch?v=D4ilxziffl8" target="_blank">Watch video</a></div>
-    <div class="visit-website"><a href="http://14.polyconf.com" target="_blank">Visit website</a></div>
-
+<section id="grid">
+  <div class="video element">
+    &nbsp;
+  </div>
+  <div class="twitter element">
+    <div class="inside">
+      <figure class="avatar"></figure>
+      <p>Great speakers, great conversations, great community. Many thanks team @polyconfhq for an outstanding conference. See you soon! #polyconf</p>
+      <a href="http://twitter.com/MakisOtman">@MakisOtman</a>
+    </div>
+  </div>
+  <div class="twitter element">
+    <div class="inside">
+      <figure class="avatar"></figure>
+      <p>Thanks for having us @polyconfhq! Had an amazing time talking and listening to other speakers! Very inspiring #polyconf rocks!</p>
+      <a href="http://twitter.com/karolinaferenz">@karolinaferenz</a>
+    </div>
+  </div>
+  <div class="twitter element">
+    <div class="inside">
+      <figure class="avatar"></figure>
+      <p>@polyconfhq Thanks for a wonderful conference. Going home inspired with list of 10+ languages worth learning.</p>
+      <a href="http://twitter.com/HorbowiczW">@HorbowiczW</a>
+    </div>
+  </div>
+  <div class="gallery element">
+    &nbsp;
+  </div>
+  <div class="twitter element">
+    <div class="inside">
+      <figure class="avatar"></figure>
+      <p>#polyconf was a best conference I've attended for a long, long time. Definitely plan to get back next year. :)</p>
+      <a href="http://twitter.com">@asolovyov</a>
+    </div>
   </div>
 
 </section>
 
-</div>
+{% include "partials/sponsors.html" %}
 
 {% endblock %}
